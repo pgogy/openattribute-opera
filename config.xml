@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<widget xmlns="http://www.w3.org/ns/widgets" network="public private">
+  <name>Open Attribute for Opera</name>
+  <description>Access attribution info for licensed materials in any web page</description>
+  <author href="" email="">Open Attribute</author>
+  <icon src="icons/Icon64.png"/>
+  <access origin="http://localhost" />
+</widget>

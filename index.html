@@ -1,0 +1,107 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<script>
+		
+		var url_cache = Array();
+		
+		var theButton = "";
+		
+		var childNodes = 0;
+		
+		var ToolbarUIItemProperties = {
+					disabled: true,
+					title: "Open Attribute",
+					icon: "icons/icon.png",
+					popup: {
+						href: "popup.html",
+						width: 400,
+						height: 400
+					},
+					badge: {
+            			display: "none",
+            			textContent: "Attrib",
+            			color: "white",
+                		backgroundColor: "rgba(211, 0, 4, 1)"
+          			}
+				}		
+
+		function setupConnection(){
+					
+			theButton = opera.contexts.toolbar.createItem(ToolbarUIItemProperties);
+					
+			opera.contexts.toolbar.addItem(theButton);	
+	
+   		}
+		
+		window.addEventListener("load", setupConnection, false);
+
+   		opera.extension.onmessage = function(event){
+			
+			if(event.data=="hide_button"){
+				
+				theButton.disabled = true;
+								
+				theButton.badge.display = "none";				
+				
+			}
+			
+			if(event.data[0]=="show_button"){
+				
+				url_cache.push(event.data[1])
+				
+				theButton.disabled = false;
+				
+				theButton.badge.display = "block";
+				
+			}
+			
+			if(event.data == "get_url_and_data"){
+				
+				theButton.badge.display = "none";
+				
+				var focused = opera.extension.tabs.getFocused();
+				
+				for(x=0;x<=url_cache.length;x++){
+					
+					cached_url = url_cache[x];	
+					
+					data_to_send = false;
+					
+					for(y in cached_url){
+						
+						if(y=="url"){
+							
+							if(focused.url==cached_url.url){
+						
+								data_to_send = cached_url;
+						
+							}
+							
+						}
+						
+					}				
+					
+					if(data_to_send!=false){
+						
+						event.source.postMessage(Array("popup_update",data_to_send));
+						
+					}
+					
+				}			
+				
+			}		
+			
+   		}
+		
+		opera.extension.onconnect = function(event){
+		
+		
+		}
+		
+	</script>
+</head>
+<body>
+
+</body>
+</html>

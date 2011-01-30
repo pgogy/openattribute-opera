@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  	<script type="text/javascript">	
+		
+    window.addEventListener("load", function(){
+		
+		opera.extension.postMessage("get_url_and_data")
+		
+    }, false);
+	
+	opera.extension.onmessage = function(event){
+		
+		if(event.data[0]=="popup_update"){
+			
+			opera.postError("pop up gets " + event.data);
+			
+			obj = event.data[1];
+			
+			for (x in obj) {
+				
+				switch (x) {
+				
+					case "title":
+						title = obj[x];
+						break;
+					case "url":
+						url = obj[x];
+						break;
+					case "author":
+						author = obj[x];
+						break;
+					case "license":
+						title = obj[x];
+						break;
+					case "license_link":
+						license_link = obj[x];
+						break;
+					case "type":
+						title = obj[x];
+						break;
+					case "attribution_url":
+						attribution_url = obj[x];
+						break;
+					case "license_shorthand":
+						title = obj[x];
+						break;
+					default:
+						break;
+						
+				}
+				
+			}
+			
+			document.getElementById("container").innerHTML = "<p style=\"font-weight:bold\">" + title + "</p>";
+			attrib_string = '<span property="dct:title">' + title + '</span>';
+	
+			document.getElementById("container").innerHTML += "<p style=\"font-size:80%\"> Source : " + url + "</p>";
+
+    		if(author!=""){
+		
+				if(attribution_url!=""){
+			
+					document.getElementById("container").innerHTML += "<p style=\"font-size:80%\"> Author: <a target=\"_blank\" href=\"" + attribution_url + "\">" + author + "</a></p>";
+					attrib_string += '<a rel="cc:attributionName" ' + 'href="' + attribution_url + '" target=\"_blank\">' + author + '</a>';
+			
+				}else{
+			
+					document.getElementById("container").innerHTML += "<p style=\"font-size:80%\"> Author: " + author + "</p>";
+					attrib_string += '<span property="cc:attributionName">' + attribution_url + '</span>';
+			
+				}
+		
+			}
+	
+			document.getElementById("container").innerHTML += "<p style=\"font-size:80%\"> License: <a target=\"_blank\" href=\"" + license_link + "\">" + license_link + "</a></p>";
+	
+			attrib_string +='<a rel="license" target=\"_blank\" href="' + license_link + '">' + license_link + '</a>';
+	
+			document.getElementById("container").innerHTML += "<textarea rows=\"7\" cols=\"50\">" + attrib_string + "</textarea>";
+			
+			
+		}		
+
+    }
+	
+  	</script>
+
+</head>
+<body>
+    <div id="container">
+    	Licensing Info will appear here
+    </div>
+</body>
+</html>
