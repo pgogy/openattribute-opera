@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <title>Open Attribute options page</title>
+  
+  <style>
+  
+  html{
+  	
+	font-size:90%;
+	font-family:Arial, Helvetica, sans-serif;
+	background-color:#dfdfdf;
+	
+  }
+      
+  </style> 
+  
+ </head>
+ <body>
+ 
+ <div id="wrapper"> 
+ <h1>Open Attribute Control Panel</h1> 
+ <form>
+ 
+ <ul>
+   <li><label for="firstrun">Do you want the instruction page to appear?</label>
+   <select name="firstrunselect" id="firstrunselect" />
+     <option value="yes">Yes</option>
+     <option value="no">No</option>
+   </select>
+   </li>
+   <li><label for="badge">Do you want the badge to appear over the button?</label>
+   <select name="badgeselect" id="badgeselect" />
+     <option value="yes">Yes</option>
+     <option value="no">No</option>
+   </select>
+   </li>
+ </ul>
+ 
+ </form>
+ <script>
+	
+var badgeobj = document.getElementById( 'badgeselect' );
+var firstrunobj = document.getElementById( 'firstrunselect' );
+
+badgeobj.addEventListener( 'change', function() {
+	widget.preferences.badge_show = this.value;	
+}, false );
+
+firstrunobj.addEventListener( 'change', function() {
+	widget.preferences.firstrun_show = this.value;
+}, false );
+
+if ( widget.preferences.badge_show && widget.preferences.firstrun_show ) {
+	badgeobj.value = widget.preferences.badge_show;
+	firstrunobj.value = widget.preferences.firstrun_show;
+}
+
+</script> 
+ </div>
+ </body>
+</html>

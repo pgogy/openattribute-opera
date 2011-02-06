@@ -1,7 +1,36 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
+	<style>
+		
+		html{
+			
+			font-size:90%;
+			font-family:Arial, Helvetica, sans-serif;
+			
+		}
+		
+	</style>
   	<script type="text/javascript">	
+	
+	function toggle(obj){
+	  	
+		if(obj.style.display=="block"){
+			
+			obj.style.display="none";
+			obj.style.height="0px";
+			
+		}else{
+			
+			obj.style.display="block";
+			obj.style.height="auto";
+			document.getElementById("attribtext").focus(); 
+			document.getElementById("attribtext").select();
+			document.execCommand('copy');
+			
+		}
+		
+	  }
 		
     window.addEventListener("load", function(){
 		
@@ -13,8 +42,6 @@
 		
 		if(event.data[0]=="popup_update"){
 			
-			opera.postError("pop up gets " + event.data);
-			
 			obj = event.data[1];
 			
 			for (x in obj) {
@@ -22,7 +49,7 @@
 				switch (x) {
 				
 					case "title":
-						title = obj[x];
+						title_name = obj[x];
 						break;
 					case "url":
 						url = obj[x];
@@ -52,33 +79,102 @@
 				
 			}
 			
-			document.getElementById("container").innerHTML = "<p style=\"font-weight:bold\">" + title + "</p>";
-			attrib_string = '<span property="dct:title">' + title + '</span>';
+			document.getElementById("container").innerHTML = "<p style=\"font-weight:bold\">" + title_name + "</p>";
+			
+			attrib_string = '<span property="dct:title">' + title_name + '</span>';
+			
+			attrib_string_light = title_name + " taken from " + url + "\n";
 	
-			document.getElementById("container").innerHTML += "<p style=\"font-size:80%\"> Source : " + url + "</p>";
+			document.getElementById("container").innerHTML += "<p> Source : " + url + "</p>";
+		
+			attrib_string_light += "\n" + license_link;
 
     		if(author!=""){
 		
 				if(attribution_url!=""){
 			
-					document.getElementById("container").innerHTML += "<p style=\"font-size:80%\"> Author: <a target=\"_blank\" href=\"" + attribution_url + "\">" + author + "</a></p>";
+					document.getElementById("container").innerHTML += "<p> Author: <a target=\"_blank\" href=\"" + attribution_url + "\">" + author + "</a></p>";
 					attrib_string += '<a rel="cc:attributionName" ' + 'href="' + attribution_url + '" target=\"_blank\">' + author + '</a>';
 			
 				}else{
 			
-					document.getElementById("container").innerHTML += "<p style=\"font-size:80%\"> Author: " + author + "</p>";
+					document.getElementById("container").innerHTML += "<p> Author: " + author + "</p>";
 					attrib_string += '<span property="cc:attributionName">' + attribution_url + '</span>';
 			
 				}
+				
+				attrib_string_light += "\nAuthor: " + author + " ";
 		
 			}
 	
-			document.getElementById("container").innerHTML += "<p style=\"font-size:80%\"> License: <a target=\"_blank\" href=\"" + license_link + "\">" + license_link + "</a></p>";
+			document.getElementById("container").innerHTML += "<p> License: <a target=\"_blank\" href=\"" + license_link + "\">" + license_link + "</a></p>";
 	
-			attrib_string +='<a rel="license" target=\"_blank\" href="' + license_link + '">' + license_link + '</a>';
-	
-			document.getElementById("container").innerHTML += "<textarea rows=\"7\" cols=\"50\">" + attrib_string + "</textarea>";
+			document.getElementById("container").innerHTML += "<form><input type=\"button\" value=\"More Information\" onclick=\"javascript:toggle(document.getElementById('extrainfodiv'));\" /></form>";
 			
+			attrib_string += "<a rel=\"license\" target=\"_blank\" href=\"" + license_link + "\">" + license_link + "</a>";
+			
+			attrib_string = "<div xmlns:dc=\"http://purl.org/dc/terms/\" xmlns:cc\"http://creativecommons.org/#ns\" about=\"" + url + "\">" + attrib_string + "</a>";
+				
+			document.getElementById("extrainfodiv").innerHTML = "<p>Basic Attribution</p><textarea rows=\"7\" id=\"attribtext\" cols=\"65\">" + attrib_string_light + "</textarea>";
+		
+			document.getElementById("extrainfodiv").innerHTML += "<p>RDFa Attribution</p><textarea rows=\"7\" id=\"attribtextRDFA\" cols=\"65\">" + attrib_string + "</textarea>";
+	   
+			
+			/*
+			/////////////
+			
+		
+
+		
+		
+		
+		
+		
+		
+		l_s = license_shorthand.split("  ").join(" ");
+		
+		l_s = l_s.split("  ")
+		
+		cc_l_s = l_s[1];
+		
+		l_s = l_s.join(" ");
+		
+		alert("-------------------" +cc_l_s + "-----------")
+		
+		attrib_string +='<a rel="license" target=\"_blank\" href="' + license_link + '">' + license + " / " + l_s + '</a>';
+		attrib_string = "<div xmlns:dc=\"http://purl.org/dc/terms/\" xmlns:cc\"http://creativecommons.org/#ns\" about=\"" + url + "\">" + attrib_string + "</a>";
+		
+		non_html_attrib_string += license.split("\n").join("") + " / " + l_s + "\n";
+	
+		switch (cc_l_s.toLowerCase()) {
+			case "by":
+			case "by-sa":
+			case "mark":
+			case "zero":
+			case "publicdomain":
+	    		license_color = "green";
+	    		break;
+	    
+			case "by-nc":
+			case "by-nd":
+			case "by-nc-nd":
+			case "by-nc-sa":
+			case "sampling+":
+			case "nc-sampling+":
+	    		license_color = "yellow";
+	    	break;
+	    
+			case "sampling":
+			case "devnations":
+	    		license_color = "red";
+	    	break;
+		}
+		
+		document.getElementById("colorbar").style.backgroundColor = license_color;*/
+		
+		
+			
+			/////////////
 			
 		}		
 
@@ -89,7 +185,8 @@
 </head>
 <body>
     <div id="container">
-    	Licensing Info will appear here
+    </div>
+	<div id="extrainfodiv" style="display:none">
     </div>
 </body>
 </html>

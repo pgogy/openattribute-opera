@@ -15,8 +15,8 @@
 					icon: "icons/icon.png",
 					popup: {
 						href: "popup.html",
-						width: 400,
-						height: 400
+						width: 500,
+						height: 500
 					},
 					badge: {
             			display: "none",
@@ -50,9 +50,22 @@
 				
 				url_cache.push(event.data[1])
 				
+				
+				
+				if(widget.preferences.firstrun_show=="yes"){
+					
+					window_first_run = opera.extension.tabs.create({url: "http://openattribute.com/first-run-opera/"});
+					widget.preferences.firstrun_show="no";					
+					
+				}
+				
 				theButton.disabled = false;
 				
-				theButton.badge.display = "block";
+				if (widget.preferences.badge_show == "yes") {
+				
+						theButton.badge.display = "block";
+					
+				}
 				
 			}
 			

@@ -81,11 +81,10 @@ function add_triple(data_triple){
 var document_text = "";
 
 function process_page(){
-	
-	window.opera.postError("process page");
 
 	if (document.body == null) {
 	
+		clearInterval(timeout)
 		wait();
 		
 	}
@@ -271,10 +270,12 @@ function process_page(){
 	}
 	
 	if (license_found) {
-	
-		window.opera.postError("site is " + attribute_info.url)
-		window.opera.postError("title is " + attribute_info.title)
-		window.opera.postError("license link is " + attribute_info.license_link)
+		
+		if(attribute_info.title==""){
+			
+			attribute_info.title = document.title;
+			
+		}
 		
 		opera.extension.postMessage(Array("show_button",attribute_info));
 	
