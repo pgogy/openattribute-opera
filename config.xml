@@ -1,9 +1,9 @@
-<widget xmlns="http://www.w3.org/ns/widgets" network="public private" version="0.2">
-  <name xml:lang="en-us">Open Attribute for Opera</name>
-  <description xml:lang="en-us">Access attribution info for licensed materials in any web page - see http://openattribute.com</description>
+<widget xmlns="http://www.w3.org/ns/widgets" version="1.0">
+  <name>Open Attribute</name>
+  <description>Access attribution info for licensed materials in any web page</description>
   <author href="http://openattribute.com" email="patrick.lockley@googlemail.com">Open Attribute</author>
   <icon src="icons/icon64.png" />
-  <license href="http://www.gnu.org/licenses/gpl.html">Distributed under the GPL Software License.</license>
+  <license href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache License, Version 2.0</license>
   <preference name="firstrun_show" value="yes" />
   <preference name="badge_show" value="no" />
 </widget>
