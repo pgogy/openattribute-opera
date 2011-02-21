@@ -34,7 +34,7 @@
 		
     window.addEventListener("load", function(){
 		
-		opera.extension.postMessage("get_url_and_data")
+		opera.extension.postMessage("get_url_and_data");
 		
     }, false);
 	
@@ -113,68 +113,12 @@
 			
 			attrib_string += "<a rel=\"license\" target=\"_blank\" href=\"" + license_link + "\">" + license_link + "</a>";
 			
-			attrib_string = "<div xmlns:dc=\"http://purl.org/dc/terms/\" xmlns:cc\"http://creativecommons.org/#ns\" about=\"" + url + "\">" + attrib_string + "</a>";
+			attrib_string = "<div xmlns:dc=\"http://purl.org/dc/terms/\" xmlns:cc\"http://creativecommons.org/#ns\" about=\"" + url + "\">" + attrib_string + "</div>";
 				
 			document.getElementById("extrainfodiv").innerHTML = "<p>Basic Attribution</p><textarea rows=\"7\" id=\"attribtext\" cols=\"65\">" + attrib_string_light + "</textarea>";
 		
 			document.getElementById("extrainfodiv").innerHTML += "<p>RDFa Attribution</p><textarea rows=\"7\" id=\"attribtextRDFA\" cols=\"65\">" + attrib_string + "</textarea>";
 	   
-			
-			/*
-			/////////////
-			
-		
-
-		
-		
-		
-		
-		
-		
-		l_s = license_shorthand.split("  ").join(" ");
-		
-		l_s = l_s.split("  ")
-		
-		cc_l_s = l_s[1];
-		
-		l_s = l_s.join(" ");
-		
-		alert("-------------------" +cc_l_s + "-----------")
-		
-		attrib_string +='<a rel="license" target=\"_blank\" href="' + license_link + '">' + license + " / " + l_s + '</a>';
-		attrib_string = "<div xmlns:dc=\"http://purl.org/dc/terms/\" xmlns:cc\"http://creativecommons.org/#ns\" about=\"" + url + "\">" + attrib_string + "</a>";
-		
-		non_html_attrib_string += license.split("\n").join("") + " / " + l_s + "\n";
-	
-		switch (cc_l_s.toLowerCase()) {
-			case "by":
-			case "by-sa":
-			case "mark":
-			case "zero":
-			case "publicdomain":
-	    		license_color = "green";
-	    		break;
-	    
-			case "by-nc":
-			case "by-nd":
-			case "by-nc-nd":
-			case "by-nc-sa":
-			case "sampling+":
-			case "nc-sampling+":
-	    		license_color = "yellow";
-	    	break;
-	    
-			case "sampling":
-			case "devnations":
-	    		license_color = "red";
-	    	break;
-		}
-		
-		document.getElementById("colorbar").style.backgroundColor = license_color;*/
-		
-		
-			
-			/////////////
 			
 		}		
 

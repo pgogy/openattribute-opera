@@ -79,21 +79,10 @@ function add_triple(data_triple){
 }
 
 var document_text = "";
+var counter=0;
 
 function process_page(){
 
-	if (document.body == null) {
-	
-		clearInterval(timeout)
-		wait();
-		
-	}
-	else {
-			
-		clearInterval(timeout)
-		
-	}
-	
 	var n = document;
 	var rootNode = n;
 	
@@ -271,6 +260,8 @@ function process_page(){
 	
 	if (license_found) {
 		
+		opera.extension.postMessage(Array("page_url",document.location.href))
+		
 		if(attribute_info.title==""){
 			
 			attribute_info.title = document.title;
@@ -287,24 +278,22 @@ function process_page(){
 	
 }
 
-function wait(){
-	
-	opera.extension.postMessage(Array("page_url",document.location.href))
-	
-	opera.extension.postMessage("hide_button");
-
-	timeout = setInterval("process_page()", 1000);	
-	
-}
-
-window.addEventListener("load",wait(),false);
-
-opera.extension.connect = function(event){
-				
-}
-			
 opera.extension.onmessage = function(event){
-		
-				
+
 }
 
+opera.extension.onmessage = function(event){
+	
+	if(event.data[1]==document.location.href){
+		
+		process_page();
+		
+	}
+
+};
+
+window.addEventListener("load",process_page,false);
+
+opera.extension.addEventListener("connect",process_page,false);
+		
+opera.extension.addEventListener("disconnect",process_page,false);

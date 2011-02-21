@@ -20,7 +20,7 @@
 					},
 					badge: {
             			display: "none",
-            			textContent: "Attrib",
+            			textContent: "found",
             			color: "white",
                 		backgroundColor: "rgba(211, 0, 4, 1)"
           			}
@@ -34,83 +34,128 @@
 	
    		}
 		
-		window.addEventListener("load", setupConnection, false);
+		window.addEventListener("load", setupConnection,false);
+		
+		function hide_button(){
+			
+			theButton.disabled = true;
+								
+			theButton.badge.display = "none";	
+			
+		}
+		
+		var curr_data;
+		
+		function show_button(event){
+			
+			var focused = opera.extension.tabs.getFocused();
+			
+			url_cache.push(event.data[1]);
+			
+			curr_data = event.data[1];
+				
+			if(widget.preferences.firstrun_show=="yes"){
+				
+				window_first_run = opera.extension.tabs.create({url: "http://openattribute.com/first-run-opera/"});
+				widget.preferences.firstrun_show="no";					
+					
+			}
+				
+			theButton.disabled = false;
+				
+			if (widget.preferences.badge_show == "yes") {
+				
+				theButton.badge.display = "block";
+					
+			}
+			
+			
+		}
+		
+		function get_data(event){
+			
+			theButton.disabled = false;	
+		
+			theButton.badge.display = "none";
+			
+			event.source.postMessage(Array("popup_update", curr_data));			
+			
+		}
+		
+		var communicator = "";
+		
+		function get_focus(){
+			
+			var focused = opera.extension.tabs.getFocused();
+			
+			curr_data = "";
+			
+			if (focused != null) {
+			
+				for (x = 0; x <= url_cache.length; x++) {
+				
+					cached_url = url_cache[x];
+					
+					data_to_send = false;
+					
+					for (y in cached_url) {
+					
+						if (y == "url") {
+						
+							if (focused.url == cached_url.url) {
+							
+								curr_data = cached_url;
+								
+							}
+							
+						}
+						
+					}
+					
+				}
+				
+			}
+			
+			hide_button();
+			
+			if (focused != null) {
+			
+				opera.extension.broadcastMessage(Array("process_page", focused.url));
+				
+			}
+
+		}
+		
+		opera.extension.tabs.addEventListener("focus",get_focus,false);	
 
    		opera.extension.onmessage = function(event){
 			
 			if(event.data=="hide_button"){
 				
-				theButton.disabled = true;
-								
-				theButton.badge.display = "none";				
+				hide_button();
 				
 			}
 			
 			if(event.data[0]=="show_button"){
 				
-				url_cache.push(event.data[1])
-				
-				
-				
-				if(widget.preferences.firstrun_show=="yes"){
-					
-					window_first_run = opera.extension.tabs.create({url: "http://openattribute.com/first-run-opera/"});
-					widget.preferences.firstrun_show="no";					
-					
-				}
-				
-				theButton.disabled = false;
-				
-				if (widget.preferences.badge_show == "yes") {
-				
-						theButton.badge.display = "block";
-					
-				}
+				show_button(event);
 				
 			}
 			
 			if(event.data == "get_url_and_data"){
 				
-				theButton.badge.display = "none";
-				
-				var focused = opera.extension.tabs.getFocused();
-				
-				for(x=0;x<=url_cache.length;x++){
-					
-					cached_url = url_cache[x];	
-					
-					data_to_send = false;
-					
-					for(y in cached_url){
-						
-						if(y=="url"){
-							
-							if(focused.url==cached_url.url){
-						
-								data_to_send = cached_url;
-						
-							}
-							
-						}
-						
-					}				
-					
-					if(data_to_send!=false){
-						
-						event.source.postMessage(Array("popup_update",data_to_send));
-						
-					}
-					
-				}			
+				get_data(event);			
 				
 			}		
 			
    		}
 		
 		opera.extension.onconnect = function(event){
-		
+			
+			communicator = event.source;
 		
 		}
+	
 		
 	</script>
 </head>

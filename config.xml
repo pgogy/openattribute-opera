@@ -1,4 +1,4 @@
-<widget xmlns="http://www.w3.org/ns/widgets" version="1.0">
+<widget xmlns="http://www.w3.org/ns/widgets" version="1.2">
   <name>Open Attribute</name>
   <description>Access attribution info for licensed materials in any web page</description>
   <author href="http://openattribute.com" email="patrick.lockley@googlemail.com">Open Attribute</author>
