@@ -17,20 +17,57 @@
 						href: "popup.html",
 						width: 500,
 						height: 500
-					},
-					badge: {
-            			display: "none",
-            			textContent: "found",
-            			color: "white",
-                		backgroundColor: "rgba(211, 0, 4, 1)"
-          			}
+					}
 				}		
+
+		function check_url(){
+			
+			var focused = opera.extension.tabs.getFocused();
+			
+			if(focused==null){
+				
+				theButton.icon = "icons/disabled.png";
+				
+				theButton.disabled = true;	
+				
+			}else{
+				
+				for (x = 0; x <= url_cache.length; x++) {
+				
+					cached_url = url_cache[x];
+					
+					data_to_send = false;
+					
+					for (y in cached_url) {
+					
+						if (y == "url") {
+						
+							if (focused.url == cached_url.url) {
+							
+								curr_data = cached_url;
+								
+								theButton.disabled = false;
+								theButton.icon = "icons/icon.png";
+								
+							}
+							
+						}
+						
+					}
+					
+				}
+				
+			}		
+			
+		}
 
 		function setupConnection(){
 					
 			theButton = opera.contexts.toolbar.createItem(ToolbarUIItemProperties);
 					
-			opera.contexts.toolbar.addItem(theButton);	
+			opera.contexts.toolbar.addItem(theButton);
+			
+			setInterval(check_url,5000)	
 	
    		}
 		
@@ -39,16 +76,13 @@
 		function hide_button(){
 			
 			theButton.disabled = true;
-								
-			theButton.badge.display = "none";	
+			theButton.icon = "icons/disabled.png";	
 			
 		}
 		
 		var curr_data;
 		
 		function show_button(event){
-			
-			var focused = opera.extension.tabs.getFocused();
 			
 			url_cache.push(event.data[1]);
 			
@@ -61,22 +95,12 @@
 					
 			}
 				
-			theButton.disabled = false;
-				
-			if (widget.preferences.badge_show == "yes") {
-				
-				theButton.badge.display = "block";
-					
-			}
-			
+			theButton.disabled = false;	
+			theButton.icon = "icons/icon.png";	
 			
 		}
 		
 		function get_data(event){
-			
-			theButton.disabled = false;	
-		
-			theButton.badge.display = "none";
 			
 			event.source.postMessage(Array("popup_update", curr_data));			
 			
@@ -106,6 +130,9 @@
 							
 								curr_data = cached_url;
 								
+								theButton.disabled = false;
+								theButton.icon = "icons/icon.png";
+								
 							}
 							
 						}
@@ -114,12 +141,17 @@
 					
 				}
 				
+			}else{			
+				
+				hide_button();				
+		
 			}
 			
-			hide_button();
 			
-			if (focused != null) {
-			
+			if (focused != null && curr_data == "") {
+				
+				hide_button();
+				
 				opera.extension.broadcastMessage(Array("process_page", focused.url));
 				
 			}
@@ -129,6 +161,7 @@
 		opera.extension.tabs.addEventListener("focus",get_focus,false);	
 
    		opera.extension.onmessage = function(event){
+			 
 			
 			if(event.data=="hide_button"){
 				
@@ -144,7 +177,7 @@
 			
 			if(event.data == "get_url_and_data"){
 				
-				get_data(event);			
+				get_data(event);		
 				
 			}		
 			
@@ -152,7 +185,12 @@
 		
 		opera.extension.onconnect = function(event){
 			
-			communicator = event.source;
+			get_focus();
+		
+		}
+		
+		opera.extension.ondisconnect = function(event){
+		
 		
 		}
 	

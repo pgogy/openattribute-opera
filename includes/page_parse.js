@@ -278,22 +278,18 @@ function process_page(){
 	
 }
 
-opera.extension.onmessage = function(event){
+function listen(){
 
+	opera.extension.onmessage = function(event){
+		
+		if (event.data[1] == document.location.href) {
+		
+			process_page();
+			
+		}
+		
+	};
+	
 }
 
-opera.extension.onmessage = function(event){
-	
-	if(event.data[1]==document.location.href){
-		
-		process_page();
-		
-	}
-
-};
-
-window.addEventListener("load",process_page,false);
-
-opera.extension.addEventListener("connect",process_page,false);
-		
-opera.extension.addEventListener("disconnect",process_page,false);
+window.addEventListener("load",listen,false);
