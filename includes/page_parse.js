@@ -258,6 +258,34 @@ function process_page(){
 		
 	}
 	
+	switch (window.location.toString().split(".")[1]) {
+	
+		case "flickr":
+						var loggedin = document.body.innerHTML.split('data-ywa-name="Account name">');
+						if (loggedin.length != 1) {
+						
+								logged_in_user = loggedin[1]
+								logged_in_user = logged_in_user.split('</a>')[0];
+								var photo_by = document.body.innerHTML.split('<strong class="username">By <a href="/photos/');
+								photo_by_user = photo_by[1]
+								photo_by_user = photo_by_user.split('>')[1];
+								photo_by_author = photo_by_user.split('<');
+								
+								
+								if (logged_in_user == photo_by_author[0]) {
+								
+									triple_array = Array(window.location.toString(), "attributionName", logged_in_user);
+									add_triple(triple_array);
+									triple_array = Array();
+									
+								}
+						
+						}
+ 						break;
+		default: break;
+	
+	}
+	
 	if (license_found) {
 		
 		opera.extension.postMessage(Array("page_url",document.location.href))

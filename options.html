@@ -29,30 +29,19 @@
      <option value="no">No</option>
    </select>
    </li>
-   <li><label for="badge">Do you want the badge to appear over the button?</label>
-   <select name="badgeselect" id="badgeselect" />
-     <option value="yes">Yes</option>
-     <option value="no">No</option>
-   </select>
-   </li>
  </ul>
  
  </form>
  <script>
 	
-var badgeobj = document.getElementById( 'badgeselect' );
-var firstrunobj = document.getElementById( 'firstrunselect' );
 
-badgeobj.addEventListener( 'change', function() {
-	widget.preferences.badge_show = this.value;	
-}, false );
+var firstrunobj = document.getElementById( 'firstrunselect' );
 
 firstrunobj.addEventListener( 'change', function() {
 	widget.preferences.firstrun_show = this.value;
 }, false );
 
-if ( widget.preferences.badge_show && widget.preferences.firstrun_show ) {
-	badgeobj.value = widget.preferences.badge_show;
+if (widget.preferences.firstrun_show ) {
 	firstrunobj.value = widget.preferences.firstrun_show;
 }
 
