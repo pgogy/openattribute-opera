@@ -123,12 +123,6 @@ function process_page(){
 									
 								}
 								
-								/*if (n.getAttribute(attr_names[i]) == "dc:type") {
-								
-									break;
-									
-								}*/
-								
 								if (attr_names[i] == "rel" && n.getAttribute(attr_names[i]).indexOf("license") != -1) {
 								
 									value = n.getAttribute("href");

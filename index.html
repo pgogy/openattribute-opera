@@ -101,8 +101,10 @@
 		}
 		
 		function get_data(event){
+		
+			passed_data = Array(url_cache,curr_data);
 			
-			event.source.postMessage(Array("popup_update", curr_data));			
+			event.source.postMessage(Array("popup_update", passed_data));			
 			
 		}
 		

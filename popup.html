@@ -42,7 +42,9 @@
 		
 		if(event.data[0]=="popup_update"){
 			
-			obj = event.data[1];
+			cache = event.data[1][0];
+			
+			obj = event.data[1][1];
 			
 			for (x in obj) {
 				
@@ -118,7 +120,36 @@
 			document.getElementById("extrainfodiv").innerHTML = "<p>Basic Attribution</p><textarea rows=\"7\" id=\"attribtext\" cols=\"65\">" + attrib_string_light + "</textarea>";
 		
 			document.getElementById("extrainfodiv").innerHTML += "<p>RDFa Attribution</p><textarea rows=\"7\" id=\"attribtextRDFA\" cols=\"65\">" + attrib_string + "</textarea>";
-	   
+			
+			document.getElementById("all_container").innerHTML += "<form><input type=\"button\" value=\"All Data\" onclick=\"javascript:toggle(document.getElementById('allinfodiv'));\" /></form>";
+			
+			document.getElementById("allinfodiv").innerHTML += "<p>TITLE,AUTHOR,LICENSE,LICENSE_LINK,TYPE,ATTRIBUTION_URL</p>";
+			
+			string = "";
+			
+			for(value in cache){
+			
+				inner = cache[value];
+				
+				url = inner.url;
+
+				string = url + ",";
+				
+				for(x in inner){
+				
+					if(inner[x]!=url){
+				
+						string += inner[x] + ",";
+					
+					}
+				
+				}
+				
+				document.getElementById("allinfodiv").innerHTML += "<p>" + string + "</p>";
+				
+				string = "";
+			
+			}	   
 			
 		}		
 
@@ -131,6 +162,10 @@
     <div id="container">
     </div>
 	<div id="extrainfodiv" style="display:none">
+    </div>
+	<div id="all_container">
+    </div>
+	<div id="allinfodiv" style="display:none">
     </div>
 </body>
 </html>
